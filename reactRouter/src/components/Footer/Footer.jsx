@@ -2,6 +2,7 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/jsx-no-undef */
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
 	return (
