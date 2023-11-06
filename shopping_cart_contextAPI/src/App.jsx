@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/* eslint-disable no-unused-vars */
+import "./App.css";
+import React, { useContext } from "react";
+import { CartContext } from "./context/Cart";
+import ItemCard from "./components/ItemCard";
 
 function App() {
-  const [count, setCount] = useState(0)
+	const appStyle = {
+		display: "flex",
+		justifyContent: "space-between",
+		width: "50%",
+	};
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	const cartStyle = {
+		width: "50%",
+	};
+
+	const listStyle = {
+		listStyleType: "none",
+	};
+
+	const cart = useContext(CartContext);
+
+	return (
+		<div style={appStyle}>
+			<div>
+				<h1>Item List</h1>
+				<ItemCard name='MacBook' price={10000} />
+				<ItemCard name='Iphone' price={13000} />
+				<ItemCard name='IPad' price={8000} />
+			</div>
+
+			<div style={cartStyle}>
+				<h1>Cart</h1>
+				<ul>
+					{cart.items.map((item, index) => (
+						<li style={listStyle} key={index}>
+							<h2>
+								{item.name} - ${item.price}
+							</h2>
+						</li>
+					))}
+				</ul>
+				<h1>Total: ${calculateTotal(cart.items)}</h1>
+			</div>
+		</div>
+	);
 }
 
-export default App
+function calculateTotal(items) {
+	return items.reduce((total, item) => total + item.price, 0);
+}
+
+export default App;
